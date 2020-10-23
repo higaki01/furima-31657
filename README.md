@@ -1,7 +1,7 @@
 # README
 
 ## ER線図
-![](2020-10-23-11-45-47.png)
+![](2020-10-23-16-52-57.png)
 
 ## DB設計
 
@@ -15,7 +15,7 @@
 | familyname          | string      | null: false               |
 | firstname_kana      | string      | null: false               |
 | familyname_kana     | string      | null: false               |
-| birth_date          | integer     | null: false               |
+| birth_date          | date        | null: false               |
 
 ### Associations
 - has_many :items, dependent: :destroy
@@ -46,9 +46,8 @@
 | user          | references  | null: false, foreign_key: true  |
 
 ### Associations
-- belongs_to :purchase
+- belongs_to :item
 - belongs_to :user
-- has_one :card, dependent:  :destroy
 - has_one :address, dependent:  :destroy
 
 
@@ -59,8 +58,8 @@
 | postal_code   | string      | null: false                     |
 | prefecture_id | integer     | null: false                     |
 | city          | string      | null: false                     |
-| address_line1 | string      | null: false                     |
-| address_line2 | string      |                                 |
+| address       | string      | null: false                     |
+| building      | string      |                                 |
 | phone         | string      | null: false                     |
 
 ### Associations
