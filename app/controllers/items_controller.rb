@@ -8,9 +8,12 @@ class ItemsController < ApplicationController
   end
 
   def create
-    binding.pry
-    Item.create(item_params)
-    render :index
+    @item = Item.new(item_params)
+    if @item.save
+      redirect_to  :index
+    else
+      render :new
+    end
   end
 
   private
