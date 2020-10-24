@@ -15,11 +15,11 @@ RSpec.describe Item, type: :model do
         expect(@item).to be_valid
       end
       it '販売価格が 300 〜 9,999,999 円の間の値であること' do
-        @item.price = 10000
+        @item.price = 1000
         expect(@item).to be_valid
       end
       it '販売価格が半角数字であること' do
-        @item.price = 1000
+        @item.price = 2000
         expect(@item).to be_valid
       end
     end
@@ -43,27 +43,27 @@ RSpec.describe Item, type: :model do
       it 'カテゴリーが選択されていないこと' do
         @item.category_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Category Select")
+        expect(@item.errors.full_messages).to include('Category Select')
       end
       it '商品状態が選択されていないこと' do
         @item.condition_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Condition Select")
+        expect(@item.errors.full_messages).to include('Condition Select')
       end
       it '配送料負担が選択されていないこと' do
         @item.shipping_cost_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping cost Select")
+        expect(@item.errors.full_messages).to include('Shipping cost Select')
       end
       it '発送元地域が選択されていないこと' do
         @item.prefecture_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Prefecture Select")
+        expect(@item.errors.full_messages).to include('Prefecture Select')
       end
       it '発送までの日数が選択されていないこと' do
         @item.shipping_day_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping day Select")
+        expect(@item.errors.full_messages).to include('Shipping day Select')
       end
       it '販売価格が空であること' do
         @item.price = ''
@@ -73,18 +73,17 @@ RSpec.describe Item, type: :model do
       it '販売価格が 300円未満であること' do
         @item.price = 299
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price Out of setting range")
+        expect(@item.errors.full_messages).to include('Price Out of setting range')
       end
       it '販売価格が 10,000,000円以上であること' do
         @item.price = 10**7
-        binding.pry
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price Out of setting range")
+        expect(@item.errors.full_messages).to include('Price Out of setting range')
       end
       it '販売価格が半角数字以外であること' do
         @item.price = '１００００'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is not a number")
+        expect(@item.errors.full_messages).to include('Price is not a number')
       end
     end
   end

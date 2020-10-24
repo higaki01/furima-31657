@@ -9,7 +9,11 @@ class Item < ApplicationRecord
   belongs_to              :user
 
   validates :image, :name, :description, :price, presence: true
-  validates :category_id, :condition_id, :shipping_cost_id, :prefecture_id, :shipping_day_id, numericality: { other_than: 1, message: 'Select' } 
-  validates :price, numericality: { onlyh_integer: true } 
-  validates :price, numericality: { onlyh_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999, message: 'Out of setting range' }
+  with_options numericality: { other_than: 1, message: 'Select' } do
+    validates :category_id, :condition_id, :shipping_cost_id, :prefecture_id, :shipping_day_id
+  end
+  validates :price, numericality: { only_integer: true }
+  validates :price, numericality: {
+    greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999, message: 'Out of setting range'
+  }
 end
