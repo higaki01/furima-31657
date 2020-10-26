@@ -123,18 +123,18 @@
   <%# 商品一覧 %>
   <div class='item-contents'>
     <h2 class='title'>ピックアップカテゴリー</h2>
-    <%= link_to '新規投稿商品', "/iems/new", class: "subtitle" %>
+    <%= link_to '新規投稿商品', new_item_path, class: "subtitle" %>
     <ul class='item-lists'>
       <% unless @items == [] %>
         <%# 商品のインスタンス変数になにか入っている場合、中身のすべてを展開できるようにしましょう %>
         <%= @items.each do |item| %>
         <li class='list'>
-          <%= link_to "#" do %>
+          <%= link_to item_path(item) do %>
           <div class='item-img-content'>
             <%= image_tag item.image, class: "item-img" %>
             <%# 商品が売れていればsold outを表示しましょう %>
             <div class='sold-out'>
-              <span>Sold Out!!</span>
+              <%# <span>Sold Out!!</span> %>
             </div>
             <%# //商品が売れていればsold outを表示しましょう %>
 
