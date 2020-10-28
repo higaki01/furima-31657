@@ -1,8 +1,9 @@
 class PurchasesController < ApplicationController
+  before_action :set_item, only: [:index, :create]
+
+
   def index
     @form = Form.new
-    @item = Item.find(params[:item_id])
-    @item = Item.find(params[:item_id])
     if !@item.purchase.nil?
       redirect_to root_path
     elsif !user_signed_in?
@@ -13,7 +14,6 @@ class PurchasesController < ApplicationController
   end
 
   def create
-    @item = Item.find(params[:item_id])
     redirect_to root_path unless @item.purchase.nil?
     @form = Form.new(form_params)
     if @form.valid?
@@ -38,5 +38,9 @@ class PurchasesController < ApplicationController
       card: @form.token,
       currency: 'jpy'
     )
+  end
+
+  def set_item
+    @item = Item.find(params[:id])
   end
 end
