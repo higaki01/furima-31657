@@ -3,8 +3,13 @@ class PurchasesController < ApplicationController
     @form = Form.new
     @item = Item.find(params[:item_id])
     @item = Item.find(params[:item_id])
-    redirect_to root_path if current_user.id == @item.user.id
-    redirect_to root_path unless @item.purchase.nil?
+    if !@item.purchase.nil?
+      redirect_to root_path
+    elsif !user_signed_in?
+      redirect_to new_user_session_path
+    elsif current_user.id == @item.user_id
+      redirect_to root_path
+    end
   end
 
   def create
