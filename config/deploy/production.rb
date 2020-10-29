@@ -62,4 +62,4 @@
 
 server '3.113.88.151',
   user: 'ec2-user',
-  roles: %w{web app db}
+  roles: %w{app db web}
