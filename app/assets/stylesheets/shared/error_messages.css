@@ -5,7 +5,18 @@
 }
 
 .error-message {
-  font-size: 1.3vw;
+  font-size: 1vw; /* 1.3vw から変更 */
   list-style: circle;
   color: rgb(182, 48, 0);
+}
+
+/* 以下エラー表示改造時に追記 */
+.error-flex {
+  display: flex;
+}
+
+.error-flex>.error-alert {
+  margin: 0 0 0 2vw;
+  font-size: 0.8vw;
+  font-weight: normal;
 }

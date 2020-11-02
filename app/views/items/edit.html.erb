@@ -4,29 +4,61 @@ app/assets/stylesheets/items/new.css %>
 <div class="items-sell-contents">
   <header class="items-sell-header">
     <%= link_to image_tag('furima-logo-color.png' , size: '185x50'), "/" %>
+
   </header>
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
+    <p class = 'element-counter'><%= @item.images.length %></p>
     <%= form_with model: @item, local: true do |f| %>
-
-    <%# インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
-    <%= render 'shared/error_messages', model: f.object %>
-    <%# //インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
+    <%= render partial: 'shared/error_messages', locals: { model: f.object, name: 'all_messages' } %>
 
     <%# 出品画像 %>
-    <div class="img-upload">
-      <div class="weight-bold-text">
-        出品画像
-        <span class="indispensable">必須</span>
+    <div class = "image-upload">
+      <div class = "weight-bold-text error-flex">
+        <div>出品画像<span class= "indispensable ">必須</span></div>
+        <%= render partial: 'shared/error_messages', locals: { model: f.object, name: '出品画像' } %>
       </div>
-      <div class="click-upload">
-        <p>
-          クリックしてファイルをアップロード
-        </p>
-        <%= f.file_field :image, id:"item-image" %>
+
+      <div class = 'image-drop-container'>
+        <div class = 'image-container main' style = 'width: 20%'>
+          <div class = 'image-title main'>＜メイン画像＞</div>
+          <div class = 'image-area main'>
+            クリックして選択<br>or<br>ドラッグ&ドロップ
+            <%= image_tag @item.images[0], class: 'image-item main', style: 'display: block'%>
+            <%= f.file_field :images, name: 'item[images][]', class: 'image-input main' %>
+          </div>
+          <div class = 'delete-btn main' style = 'display: block' >削除</div>
+        </div>
+
+        <% @item.images.each_with_index do |image, i| %>
+          <% unless i == 0 %>
+            <div class = 'image-container <%= "element#{i}" %>' style = 'width: 20%' >
+              <div class = 'image-title <%= "element#{i}" %>'>＜追加画像＞</div>
+              <div class = 'image-area <%= "element#{i}" %>'>
+                追加できます
+                <%= image_tag @item.images[i], class: "image-item element#{image.id}", style: 'display: block' %>
+                <%= f.file_field :images, name: 'item[images][]', class: "image-input element#{image.id}" %>
+              </div>
+              <div class = 'delete-btn <%= "element#{image.id}" %>' >削除</div>
+            </div>
+          <% end %>
+        <% end %>
+
+        <% unless 5 == @item.images.length %>
+          <div class = 'image-container <%= "element#{@item.images.length}" %>' style = 'width: 20%' >
+            <div class = 'image-title <%= "element#{@item.images.length}" %>'>＜追加画像＞</div>
+            <div class = 'image-area <%= "element#{@item.images.length}" %>'>
+              追加できます
+              <%= image_tag '', class: "image-item element#{@item.images.length}" %>
+              <%= f.file_field :images, name: 'item[images][]', class: "image-input element#{@item.images.length}" %>
+            </div>
+            <div class = 'delete-btn <%= "element#{@item.images.length}" %>' >削除</div>
+          </div>
+        <% end %>
       </div>
     </div>
     <%# /出品画像 %>
+
     <%# 商品名と商品説明 %>
     <div class="new-items">
       <div class="weight-bold-text">
@@ -141,7 +173,7 @@ app/assets/stylesheets/items/new.css %>
     <%# 下部ボタン %>
     <div class="sell-btn-contents">
       <%= f.submit "変更する" ,class:"sell-btn" %>
-      <%=link_to 'もどる', "#", class:"back-btn" %>
+      <%=link_to 'もどる', item_path(@item), class:"back-btn" %>
     </div>
     <%# /下部ボタン %>
   </div>

@@ -1,9 +1,13 @@
 <% if model.errors.any? %>
-<div class="error-alert">
-  <ul>
-    <% model.errors.full_messages.each do |message| %>
-    <li class='error-message'><%= message %></li>
-    <% end %>
-  </ul>
-</div>
+  <div  class="error-alert">
+    <ul>
+      <% model.errors.full_messages.each do |message| %>
+        <% if name == 'all_messages' %>
+          <li class = 'error-message'><%= message %></li>
+        <% elsif message.include?(name) %>
+          <li class = 'error-message'><%= message %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
 <% end %>

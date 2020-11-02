@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
-  has_one_attached        :image
+  has_many_attached       :images, dependent: :destroy
   belongs_to_active_hash  :category
   belongs_to_active_hash  :condition
   belongs_to_active_hash  :shipping_cost
@@ -9,12 +9,12 @@ class Item < ApplicationRecord
   belongs_to              :user
   has_one                 :purchase, dependent: :destroy
 
-  validates :image, :name, :description, :price, presence: true
-  with_options numericality: { other_than: 1, message: 'Select' } do
+  validates :images, :name, :description, :price, presence: true
+  with_options numericality: { other_than: 1, message: 'を選択してください' } do
     validates :category_id, :condition_id, :shipping_cost_id, :prefecture_id, :shipping_day_id
   end
   validates :price, numericality: { only_integer: true }
   validates :price, numericality: {
-    greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999, message: 'Out of setting range'
+    greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999, message: 'が入力範囲外です'
   }
 end

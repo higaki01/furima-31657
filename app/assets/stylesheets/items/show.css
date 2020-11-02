@@ -204,3 +204,15 @@
   font-weight: bold;
   font-size: 23px;
 }
+
+/* 以下複数画像投稿用に追加 */
+.img-preview-container {
+  display: flex;
+}
+
+.img-preview {
+  width: 15%;
+  height: 100px;
+  margin: 0 20px;
+  object-fit: contain;
+}
