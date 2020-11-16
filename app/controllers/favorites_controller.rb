@@ -4,9 +4,8 @@ class FavoritesController < ApplicationController
   def create
     if Favorite.find_by(item_id: params[:item_id], user_id: current_user.id).present?
       Favorite.find_by(item_id: params[:item_id], user_id: current_user.id).destroy
-
     else
-      favorite = Favorite.create(item_id: params[:item_id] ,user_id: current_user.id)
+      Favorite.create(item_id: params[:item_id], user_id: current_user.id)
     end
 
     item = Item.find(params[:item_id])
@@ -15,7 +14,6 @@ class FavoritesController < ApplicationController
     else
       count = 0
     end
-    render json: {count: count}
+    render json: { count: count }
   end
-
 end

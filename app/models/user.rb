@@ -4,14 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook, :google_oauth2]
 
-  has_many  :items,      dependent: :destroy
+  has_many  :items,     dependent: :destroy
   has_many  :purchases
-  has_one   :card,       dependent: :destroy
+  has_one   :card,      dependent: :destroy
   has_one   :address
   has_many  :sns_credentials
   has_many  :messages
-  has_one   :avatar,      dependent: :destroy
-  has_many  :favorites,   dependent: :destroy
+  has_one   :avatar,    dependent: :destroy
+  has_many  :favorites, dependent: :destroy
 
   validates :nickname, :birth_date, presence: true
 
@@ -32,7 +32,7 @@ class User < ApplicationRecord
     sns = SnsCredential.where(provider: auth.provider, uid: auth.uid).first_or_create
     user = User.where(email: auth.info.email).first_or_initialize(
       nickname: auth.info.name,
-        email: auth.info.email
+      email: auth.info.email
     )
     if user.persisted?
       sns.user = user

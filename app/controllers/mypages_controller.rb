@@ -74,11 +74,6 @@ class MypagesController < ApplicationController
     redirect_to card_mypage_path(params[:id])
   end
 
-  def info
-  end
-
-
-
   private
 
   def address_params
@@ -94,10 +89,9 @@ class MypagesController < ApplicationController
   end 
 
   def delete_card
-    card = Card.find_by(user_id: params[:id]) 
+    card = Card.find_by(user_id: params[:id])
     customer = Payjp::Customer.retrieve(card.customer_token)
     customer.delete
     card.delete
   end
-
-end 
+end

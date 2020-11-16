@@ -9,8 +9,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def new
-    if session["devise.regist_data"].present?
-      @user = User.new(session["devise.regist_data"]["user"])
+    if session['devise.regist_data'].present?
+      @user = User.new(session['devise.regist_data']['user'])
     else
       @user = User.new
     end
@@ -24,8 +24,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
     @user = User.new(sign_up_params)
     if @user.valid?
-      session["devise.regist_data"] = {user: @user.attributes}
-      session["devise.regist_data"][:user]["password"] = params[:user][:password]
+      session['devise.regist_data'] = { user: @user.attributes }
+      session['devise.regist_data'][:user]['password'] = params[:user][:password]
       redirect_to users_addresses_path
     else
       render :new and return
@@ -33,8 +33,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def new_address
-    if session["devise.regist_data"]["address"].present?
-      @address = Address.new(session["devise.regist_data"]["address"])
+    if session['devise.regist_data']['address'].present?
+      @address = Address.new(session['devise.regist_data']['address'])
     else
       @address = Address.new
     end
@@ -45,7 +45,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if @address.invalid?
       render :new_address and return
     else
-      session["devise.regist_data"]["address"] = @address.attributes
+      session['devise.regist_data']['address'] = @address.attributes
       redirect_to users_cards_path and return
     end
   end
@@ -55,22 +55,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def create_card
-    binding.pry
-    user = User.new(session["devise.regist_data"]["user"])
+    user = User.new(session['devise.regist_data']['user'])
     @card = Card.create_card(params[:card_token], nil)
     if @card.valid?
       card = user.build_card(@card.attributes)
     else
       render :new_card and return
     end
-    address = user.build_address(session["devise.regist_data"]["address"]) if session["devise.regist_data"]["address"].present?
+    address = user.build_address(session['devise.regist_data']['address']) if session['devise.regist_data']['address'].present?
     user.save
     redirect_to root_path and return
   end
 
   def create_completion
-    user = User.new(session["devise.regist_data"]["user"])
-    address = user.build_address(session["devise.regist_data"]["address"]) if session["devise.regist_data"]["address"].present?
+    user = User.new(session['devise.regist_data']['user'])
+    address = user.build_address(session['devise.regist_data']['address']) if session['devise.regist_data']['address'].present?
     user.save
     sign_in_and_redirect user
   end  

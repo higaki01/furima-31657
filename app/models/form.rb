@@ -27,7 +27,7 @@ class Form
       address = Address.find_by(user_id: user_id)
     else
       address = Address.create(
-        postal_code: @postal_code, prefecture_id: @prefecture_id, city: @city, 
+        postal_code: @postal_code, prefecture_id: @prefecture_id, city: @city,
         address: @address, building: @building, phone: @phone
       )
     end
