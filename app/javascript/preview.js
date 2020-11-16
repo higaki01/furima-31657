@@ -60,7 +60,7 @@ if (document.URL.match(/items/) && document.URL.match(/new|edit/)) {
       imageItem.classList.add('image-item', 'hidden');
       imageInput.classList.add('image-input');
       imageInput.setAttribute('type', 'file');
-      imageInput.setAttribute('name', 'item[images][]');
+      imageInput.setAttribute('name', 'item_form[images][]');
       deleteBtn.classList.add('delete-btn', 'hidden');
       deleteBtn.innerHTML = '削除';
 

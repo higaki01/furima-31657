@@ -24,11 +24,13 @@ consumer.subscriptions.create("MessageChannel", {
       var avatar = data.avatar
     }; 
 
+    const date = new Date(data.time)
+
     const HTML = `
-      <div class = 'message-container'>
+      <div class = 'message-container' id = 'message-container-js'>
         <div class = "message-info ${messageBox}">
           <div class = 'message-nickname'>${data.user.nickname}</div>
-          <div class = 'post-date'>${data.message.created_at}</div>
+          <div class = 'message-time'>${date}</div>
         </div>
         <div class = 'message-main ${messageBox}'>
           <div class = 'user-icon-box'>

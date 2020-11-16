@@ -1,6 +1,8 @@
 class MessagesController < ApplicationController
   def create
     message = Message.new(message_params)
+    time = message.created_at
+    time_msec = time.to_f * 1000
     item = Item.find(params[:message][:item_id])
     user = item.user
     if current_user.avatar.present?
@@ -10,7 +12,7 @@ class MessagesController < ApplicationController
     end
     
     if message.save
-      ActionCable.server.broadcast 'message_channel', message: message, user: user, avatar: avatar
+      ActionCable.server.broadcast 'message_channel', message: message, user: user, avatar: avatar, time: time_msec
     end
   end
 

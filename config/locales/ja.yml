@@ -1,4 +1,7 @@
 ja:
+ time:
+   formats:
+     default: "%Y/%m/%d %H:%M:%S"
  attributes:
        token: クレジット情報を正しく
        city: 市区町村
