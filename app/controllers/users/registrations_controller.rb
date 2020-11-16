@@ -55,6 +55,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def create_card
+    binding.pry
     user = User.new(session["devise.regist_data"]["user"])
     @card = Card.create_card(params[:card_token], nil)
     if @card.valid?
@@ -71,8 +72,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     user = User.new(session["devise.regist_data"]["user"])
     address = user.build_address(session["devise.regist_data"]["address"]) if session["devise.regist_data"]["address"].present?
     user.save
-    user.sign_in
-    redirect_to root_path and return
+    sign_in_and_redirect user
   end  
 
   private

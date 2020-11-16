@@ -20,7 +20,7 @@ class MypagesController < ApplicationController
   end
 
   def buy
-    @items = @user.items.includes(:purchase).where(purchases: { user_id: params[:id] })
+    @purchases = @user.purchases.where(user_id: params[:id])
   end
 
   def address

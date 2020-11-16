@@ -3,7 +3,48 @@
   <%= render 'mypage_nav' %>
   <div class = 'mypage-content'>
     <div class = 'mypage-detail'>購入した商品</div>
-    <%= render partial: 'mypage_content', locals: { items: @items } %>
-  </div>
-</div>
-<%= render "shared/footer"%>
+
+      <div>
+        <span>検索結果</span>
+        <% if @purchases.length !=0 %>
+        <span><%= "#{@purchases.length}件" %></span>
+        <br>
+        <span><%= "1〜#{@purchases.length}件を表示" %></span>
+          <ul class = 'search-item-lists'>
+            <% @purchases.each do |purchase| %>
+              <li class = 'list'>
+                <%= link_to item_path(purchase.item) do %>
+                <div class = 'item-img-content'>
+                  <%= image_tag purchase.item.images[0], class: "item-img" if purchase.item.images.attached? %>
+
+                  <%# 売り切れ %>
+                  <% if !purchase.item.purchase.nil? %>
+                    <div class = 'sold-out'>
+                      <span>Sold Out!!</span>
+                    </div>
+                  <% end %>
+                  <%# // 売り切れ %>
+
+                </div>
+                <div class = 'item-info'>
+                  <h3 class = 'item-name'>
+                    <%= purchase.item.name %>
+                  </h3>
+                  <div class = 'item-price'>
+                    <span><%= purchase.item.price %>円<br>(税込み)</span>
+                    <div class = 'star-btn'>
+                      <%= image_tag "star.png", class:"star-icon" %>
+                      <span class = 'star-count'><%= Favorite.where(item_id: purchase.item.id).count %></span>
+                    </div>
+                  </div>
+                </div>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <br>
+          <span>該当する商品はありません</span>
+        <% end %>
+      </div>
+

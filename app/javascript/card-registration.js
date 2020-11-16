@@ -1,5 +1,5 @@
 if (document.URL.match(/card/)) {
-  document.getElementById('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     Payjp.setPublicKey(process.env.PAYJP_PUBLIC_KEY);
     const form = document.getElementById("card-registration");
     form.addEventListener("submit", (e) => {

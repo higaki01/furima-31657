@@ -1,6 +1,7 @@
 if (document.URL.match(/purchases/)) {
   document.addEventListener('DOMContentLoaded', function() {
     Payjp.setPublicKey(process.env.PAYJP_PUBLIC_KEY);
+    console.log('ckeck')
     const form = document.getElementById('charge-form');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
