@@ -1,0 +1,120 @@
+.mypage-container {
+  display: flex;
+  justify-content: center;
+  background: #f5f5f5;
+}
+
+.mypage-nav {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mypage-nav-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 30px 0;
+}
+
+.mypage-nav-list-item {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  color: black;
+  height: 50px;
+  width: 100%;
+  padding: 15px;
+  margin-bottom:1%
+}
+
+.mypage-nav-list-item:visited {
+  color: black;
+}
+
+.mypage-nav-list-item > i {
+  color: gray;
+}
+
+.mypage-nav-list-item:hover > i {
+  color: black;
+  font-size: 20px;
+}
+
+.mypage-content{
+  width: 60%;
+  padding: 2%;
+}
+
+.mypage-detail {
+  font-size :20px; 
+  padding: 10px 0;
+  text-align: center;
+  background: white;
+  margin-bottom: 10px;
+}
+
+.registration-edit {
+  background-color: #FFF;
+  padding: 20px 0;
+}
+
+.card-info {
+  margin: 15px 0;
+  display: flex;
+  font-size: 20px;
+}
+
+.card-info > span {
+  padding-right: 10px;
+}
+
+
+.register-btn {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.mypage-delete-btn {
+  width: 100%;
+  display: block;
+  background: #aaa;
+  border: 1px solid #aaa;
+  color: #fff;
+  line-height: 48px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.registration-edit .credit-card-form {
+  border-bottom: none;
+}
+
+.registration-edit > .form-header {
+  height: auto;
+  font-size: 20px;
+}
+
+.registration-edit  .form-header-text {
+  border-bottom: none;
+  line-height: 50px;
+}
+
+.registration-edit  .form-wrap {
+  width: 100%;
+}
+
+.registration-edit  .mypage_mail_btn {
+  margin-top: 30px;
+}
+
+.registration-edit > .registration-main {
+  min-width: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+

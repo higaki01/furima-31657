@@ -20,6 +20,8 @@
 ### Associations
 - has_many :items, dependent: :destroy
 - has_many :purchases, dependent: :destroy
+- has_one :card, dependent: :destroy
+
 
 ## itemsテーブル
 | column            | type        | options                         |
@@ -64,3 +66,14 @@
 
 ### Associations
 - belongs_to :purchase
+
+
+## cardsテーブル
+| column         | type       | options                        |
+|----------------|------------|--------------------------------|
+| card_token     | integer    | null: false                    |
+| customer_token | integer    | null: false                    |
+| user           | References | null: false, foreign_key: true |
+
+### Associations
+- belongs_to :user

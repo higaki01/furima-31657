@@ -1,0 +1,106 @@
+<%= render "shared/header" %>
+<div class = 'search-container' >
+
+  <%# 検索ナビゲーション %>
+  <div class = 'search-nav' >
+    <%= search_form_for @p, url: search_item_items_path do |f| %>
+      <%# 並べ替え %>
+      <div class = 'search-form-group'>
+        <%= f.collection_select(:sorts, Sort.all, :value, :name, {}, {class: 'search-select-box'} ) %>
+      </div>
+      <%# // 並べ替え %>
+
+      <%# 詳細検索 %>
+      <div class = 'search-detail' >
+        <h3>詳細検索</h3>
+
+        <%# キーワード検索 %>
+        <div class = 'search-form-group'>
+          <span>キーワードを入力</span>
+          <%= f.text_field :name_and_description_cont_any, placeholder: '例）値下げ', class: 'search-input-text' %>
+        </div>
+        <%# // キーワード検索 %>
+
+        <%# カテゴリー選択 %>
+        <div class = 'search-form-group'>
+          <span>カテゴリー選択</span>
+          <%= f.collection_select(:category_id_eq, Category.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: 'search-select-box'} ) %>
+        </div>
+        <%# // カテゴリー選択 %>
+
+        <%# タグ検索 %>
+        <div class = 'search-form-group'>
+          <span>タグ検索</span>
+          <%= f.text_field :item_tags_tag_name_cont, placeholder: '例）シャネル', class: 'search-input-text' %>
+        </div>
+        <%# // タグ検索 %>
+
+        <%# 価格 %>
+        <div class = 'search-form-group'>
+          <span>価格</span>
+          <%= f.collection_select(:price_in, PriceRange.all, :value, :name, {include_blank: '指定なし'}, {class: 'search-select-box'} ) %>
+          <div class = 'price-range'>
+            <%= f.text_field :price_gteq, placeholder: '¥ min', class: 'search-input-price' %>
+            <span class = 'price-range-mark' > 〜 </span>
+            <%= f.text_field :price_lteq, placeholder: '¥ max', class: 'search-input-price' %>
+          </div>
+        </div>
+        <%# // 価格 %>
+
+        <%# 状態 %>
+        <div class = 'search-form-group'>
+          <span>商品の状態</span>
+          <div class = 'search-check-box'>
+            <%= f.collection_check_boxes(:condition_id_eq_any, Condition.where.not(id: 1), :id, :name, {include_hidden: false} ) %>
+          </div>
+        </div>
+        <%# // 状態 %>
+
+        <%# 配送料負担 %>
+        <div class = 'search-form-group'>
+          <span>配送料の負担</span>
+          <%= f.collection_select(:shipping_cost_id_eq, ShippingCost.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: 'search-select-box'} ) %>
+        </div>
+        <%# // 配送量負担 %>
+
+        <%# 販売状況 %>
+        <div class = 'search-form-group'>
+          <span>販売状況</span>
+          <%= f.collection_select(:purchase_id_null, Sold.all, :value, :name, {include_blank: 'すべて'}, {class: 'search-select-box'} ) %>
+        </div>
+        <%# //販売状況 %>
+
+        <%# ボタン %>
+        <div class = 'search-btn-container'>
+          <%# f.reset 'クリア', class: 'search-btn-clear' %>
+          <input type = 'reset' value = 'クリア' class = 'search-btn-clear'>
+          <%# <div class = 'search-btn-clear'><span>クリア</span></div> %>
+          <%= f.submit '検索', class: 'search-btn' %>
+        </div>
+        <%# // ボタン %>
+      </div>
+    <% end %>
+  </div>
+  <%# // 検索ナビゲーション %>
+
+  <%# 検索結果表示 %>
+  <div class = 'search-content' >
+    <span>検索結果</span>
+    <% if @results.length !=0 %>
+    <span><%= "#{@results.length}件" %></span>
+    <br>
+    <span><%= "1〜#{@results.length}件を表示" %></span>
+      <ul class = 'search-item-lists'>
+        <%= render partial: 'items', collection: @results, as: 'item' %>
+        
+      </ul>
+    <% else %>
+      <br>
+      <span>該当する商品はありません</span>
+    <% end %>
+  </div>
+  <%# 検索結果表示 %>
+  
+</div>
+
+<%= render "shared/footer" %>

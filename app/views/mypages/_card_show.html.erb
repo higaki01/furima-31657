@@ -1,0 +1,35 @@
+  <div class = 'registration-edit'>
+
+    <%# カード情報表示 %>
+    <div class = 'credit-card-form'>
+      <h1 class = 'info-input-haedline'>
+        登録カード情報
+      </h1>
+      <div class = 'form-group'>
+        <div class = 'form-text-wrap'>
+          <label class = "form-text">カード番号</label>
+          <div class = 'card-info'>
+            <%= image_tag 'card-visa.gif', class: 'card-logo'%>
+            <span><%= @card[:brand] %></span>
+            <span><%= "末尾  #{@card[:last4]}" %></span>
+          </div>
+        </div>
+      </div>
+      <div class = 'form-group'>
+        <div class = 'form-text-wrap'>
+          <label class = "form-text">有効期限</label>
+        </div>
+        <div class = 'input-expiration-date-wrap card-info'>
+          <%= @card[:exp_month] %>
+          /
+          <%= @card[:exp_year] %>
+        </div>
+      </div>
+    </div>
+    <%# /カード情報の入力 %>
+
+    <div class='register-btn'>
+      <%= button_to '削除する', destroy_card_mypage_path(params[:id]), method: :delete, class: "mypage-delete-btn" %>
+    </div>
+
+  </div>

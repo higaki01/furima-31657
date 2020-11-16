@@ -1,0 +1,121 @@
+<%= render "shared/header"%>
+<div class = 'mypage-container'>
+  <%= render 'mypage_nav' %>
+  <div class = 'mypage-content'>
+    <div class = 'mypage-detail'>マイページ</div>
+      <div class = 'top-container'>
+        <%= form_with model: @avatar, class: 'avatar-from', local: true do |f| %>
+          <div class = 'avatar-image-area'>
+          <% if @avatar.image.present? %>
+            <%= image_tag @avatar.image, class: 'avatar-image-item' %>
+          <% else %>
+            <%= image_tag 's30.png', class: 'avatar-image-item' %>
+          <% end %>
+          <%= f.file_field :image, name:'user[image]', class: 'image-input' %>
+          </div>
+          <div class="avatar-btn-container">
+            <%= f.submit "登録" ,class:"avatar-btn gray" %>
+            <%=link_to '削除', avatar_path(params[:id]), method: :delete, class:"avatar-btn gray" %>
+          </div>
+        <% end %>
+        <div class = 'user-info-container'>
+          <span><%= @user.nickname %></span>
+          <span>・出品中の商品：<%= @user.items.includes(:purchase).where(purchases: { id: nil }).length %>件</span>
+          <span>・販売済の商品：<%= @user.items.includes(:purchase).where.not(purchases: { id: nil }).length %>件</span>
+        </div>
+      </div>
+
+      <div class = 'top-container'>
+        <div class="list list-table">
+          <div class="list-title">出品商品への新着コメント</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th >送信日時</th>
+                <th > 商品</th>
+                <th >ユーザー</th>
+                <th >コメント</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if @received_messages.present? %>
+                <% @received_messages.each do |message| %>
+                  <tr>
+                    <td><%= message.created_at %></td>
+                    <td><%= message.item.name %></td>
+                    <td><%= message.user.nickname %></td>
+                    <td><%= link_to item_path(message.item_id) do %>
+                      <span><%= message.text.truncate(30) %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              <% else %>
+                <tr>
+                  <td>--</td>
+                  <td>◯◯ ◯◯</td>
+                  <td>◯◯ ◯◯</td>
+                  <td>まだメッセージはありません</a></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class = 'second-container'>
+        <% if @favorites.length !=0 %>
+        <span class = 'favorite-title'>お気に入り登録</span>
+        <span ><%= "#{@favorites.length}件" %></span>
+        <br>
+          <ul class = 'search-item-lists'>
+            <% @favorites.each do |favorite| %>
+              <li class = 'list'>
+                <%= link_to item_path(favorite.item) do %>
+                <div class = 'item-img-content'>
+                  <%= image_tag favorite.item.images[0], class: "item-img" if favorite.item.images.attached? %>
+
+                  <%# 売り切れ %>
+                  <% if !favorite.item.purchase.nil? %>
+                    <div class = 'sold-out'>
+                      <span>Sold Out!!</span>
+                    </div>
+                  <% end %>
+                  <%# // 売り切れ %>
+
+                </div>
+                <div class = 'item-info'>
+                  <h3 class = 'item-name'>
+                    <%= favorite.item.name %>
+                  </h3>
+                  <div class = 'item-price'>
+                    <span><%= favorite.item.price %>円<br>(税込み)</span>
+                    <div class = 'star-btn'>
+                      <%= image_tag "star.png", class:"star-icon" %>
+                      <span class = 'star-count'><%= Favorite.where(item_id: favorite.item_id).count %></span>
+                    </div>
+                  </div>
+                </div>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <span class = 'favorite-title'>お気に入り登録</span>
+          <br>
+          <span>該当する商品はありません</span>
+        <% end %>
+      </div>
+      <%# render partial: 'mypage_content', locals: { items: @items } %>
+    </div>
+  </div>
+</div>
+<%= render "shared/footer"%>
+
+
+
+  
+
+
+
+

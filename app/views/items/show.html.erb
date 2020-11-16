@@ -16,11 +16,13 @@
       <% end %>
       <%# //商品が売れている場合は、sold outを表示しましょう %>
     </div>
-      <div class = 'img-preview-container'>
-        <% @item.images.each do |image| %>
-          <%= image_tag image, class:"img-preview" if @item.images.attached? %>
-        <% end %>
-      </div>
+      <% if @item.images.length > 1 %>
+        <div class = 'img-preview-container'>
+          <% @item.images.each do |image| %>
+            <%= image_tag image, class:"img-preview" if @item.images.attached? %>
+          <% end %>
+        </div>
+      <% end %>
     <div class="item-price-box">
       <span class="item-price">
         ¥ <%= @item.price %>
@@ -51,6 +53,19 @@
       <span><%= @item.description %></span>
     </div>
     <table class="detail-table">
+    <% if @item.tags.present? %>
+      <div class = 'tags-container'>
+        <% @item.tags.each do |tag| %>
+            <%= search_form_for @p, url: search_item_items_path do |f| %>
+              <%= f.hidden_field :item_tags_tag_name_cont, value: "#{tag.name}" %>
+              <%= button_tag type: 'submit', calss: 'tag-container-show', style: 'margin:10px; border-radius: 15px; border: 1px solid #ccc;' do %>
+                <span class='tag-name' ><%= tag.name %></span>
+              <% end %>
+            <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
       <tbody>
         <tr>
           <th class="detail-item">出品者</th>
@@ -79,9 +94,13 @@
       </tbody>
     </table>
     <div class="option">
-      <div class="favorite-btn">
-        <%= image_tag "star.png" ,class:"favorite-star-icon" ,width:"20",height:"20"%>
-        <span>お気に入り 0</span>
+      <% if @item.favorites.where(user_id: current_user.id).present? %>
+      <div class="favorite-btn favorite" id = 'favorite-btn-js' data-id = <%= @item.id %> >
+      <% else %>
+      <div class="favorite-btn" id = 'favorite-btn-js' data-id = <%= @item.id %> >
+      <% end %>
+        <i class="fas fa-star"></i>
+        <span id = 'favorite-counter-js' >お気に入り <%= @item.favorites.present? ? @item.favorites.length : 0 %></span>
       </div>
       <div class="report-btn">
         <%= image_tag "flag.png" ,class:"report-flag-icon" ,width:"20",height:"20"%>
@@ -92,18 +111,52 @@
   <%# /商品の概要 %>
 
   <div class="comment-box">
-    <form>
-      <textarea class="comment-text"></textarea>
+  <div class = comment-box-title>メッセージ一覧</div>
+      <div class = 'message-area' id = 'message-area-js'>
+      <% if @messages.present? %>
+        <% @messages.each do |message| %>
+          <% message.user_id == @item.user_id ? position = 'right' : position = 'left'%>
+          <div class = 'message-container', id = 'message-container-js'>
+            <div class = "message-info <%= position %>">
+              <div class = 'message-nickname'><%= message.user.nickname %></div>
+              <div class = 'message-time'><%= message.created_at %></div>
+            </div>
+            <div class = 'message-main <%= position %>'>
+              <div class = 'user-icon-box'>
+                <% if message.user.avatar.present? %>
+                <%= image_tag message.user.avatar.image, class:"img-preview-show" %>
+                <% else %>
+                <%= image_tag 's30.png', class:"img-preview-show" %>
+                <% end %>
+              </div>
+              <div class = 'fukidashi-<%= position %>'></div>
+              <div class = 'message-text'><%= message.text %></div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class = 'dammy-message'>まだメッセージがありません</div>
+      <% end %>
+      </div>
+    <%= form_with model: @message, id: 'message-form-js', local: true do |form| %>
+    <%# <form id = 'form-js'> %>
+      <%# <textarea class="comment-text" id = 'comment-text-js'></textarea> %>
+      <%= form.text_area :text, class: 'comment-text', id: 'comment-text-js' %>
+      <%= form.hidden_field :user_id, value: current_user.id %>
+      <%= form.hidden_field :item_id, value: params[:id] %>
       <p class="comment-warn">
         相手のことを考え丁寧なコメントを心がけましょう。
         <br>
         不快な言葉遣いなどは利用制限や退会処分となることがあります。
       </p>
-      <button type="submit" class="comment-btn">
+      <%# <button type="submit" class="comment-btn" id = 'submit-js'> %>
+      <%= form.button :submit, class: "comment-btn", id: 'submit-js' do %>
         <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
         <span>コメントする<span>
-      </button>
-    </form>
+      <%# </button> %>
+      <% end %>
+    <%# </form> %>
+    <% end %>
   </div>
   <div class="links">
     <a href="#" class="change-item-btn">

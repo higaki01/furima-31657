@@ -2,12 +2,19 @@
 <header class='top-page-header'>
   <div class='search-bar-contents'>
     <%= link_to image_tag("furima-logo-color.png", class:"furima-icon"), "/" %>
-    <form class="search-form" action="#">
+    <%= search_form_for @p, url: search_item_items_path, class: 'search-form' do |f| %>
+      <%= f.text_field :name_and_description_cont_any, placeholder: 'キーワードから探す', class: 'input-box' %>
+      <%= button_tag type: 'submit', class: "search-button" do %>
+          <% image_tag "search.png", class:"search-icon" %>
+      <% end %>
+      <%# f.submit '検索', value: '&#xf002;', class: 'fas'%>
+    <% end %>
+    <%# <form class="search-form" action="#">
       <input class='input-box' placeholder='キーワードから探す'>
-      <button class="search-button">
-        <%= image_tag "search.png", class:"search-icon" %>
-      </button>
-    </form>
+      <button class="search-button"> %>
+        <%# image_tag "search.png", class:"search-icon" %>
+      <%# </button> 
+    </form> %>
   </div>
   <div class='nav'>
     <ul class='lists-left'>
@@ -17,11 +24,11 @@
     <ul class='lists-right'>
       <%# deviseを導入できたら、ログインの有無で表示が変わるように分岐しましょう%>
       <% if user_signed_in? %>
-        <li><%= link_to current_user.nickname, "#", class: "user-nickname" %></li>
+        <li><%= link_to current_user.nickname, mypage_path(current_user.id), class: "user-nickname" %></li>
         <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "logout" %></li>
       <% else %>
         <li><%= link_to 'ログイン', new_user_session_path, class: "login" %></li>
-        <li><%= link_to '新規登録', new_user_registration_path, class: "sign-up" %></li>
+        <li><%= link_to '新規登録', users_registration_path, class: "sign-up" %></li>
       <% end %>
       <%# //deviseを導入できたら、ログインの有無で表示が変わるように分岐しましょう%>
     </ul>

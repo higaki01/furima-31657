@@ -1,12 +1,16 @@
 <div class="items-sell-contents">
   <header class="items-sell-header">
     <%= link_to image_tag('furima-logo-color.png' , size: '185x50'), "/" %>
-
   </header>
+
+  <% breadcrumb :item_new %>  
+  <%= breadcrumbs separator: " &rsaquo; " %>
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
-    <p class = 'element-counter'><%= @item.images.length %></p>
-    <%= form_with model: @item, local: true do |f| %>
+    <div id = 'img-counter-js' class = 'hidden' data-id = <%= @item.images.length %>></div>
+    <div id = 'img-id-js' class = 'hidden' data-id = <%= @item.images.length == 5 ? 5 : @item.images.length + 1 %>></div>
+
+    <%= form_with model: @item_form, url: items_path, class: 'sell-form', local: true do |f| %>
     <%= render partial: 'shared/error_messages', locals: { model: f.object, name: 'all_messages' } %>
 
     <%# 出品画像 %>
@@ -16,18 +20,38 @@
         <%= render partial: 'shared/error_messages', locals: { model: f.object, name: '出品画像' } %>
       </div>
       <div class = 'image-drop-container'>
-        <div class = 'image-container main'>
-          <div class = 'image-title main'>＜メイン画像＞</div>
-          <div class = 'image-area main'>
-            クリックして選択<br>or<br>ドラッグ&ドロップ
-            <%= image_tag '', class: 'image-item main' %>
-            <%= f.file_field :images, name: 'item[images][]', class: 'image-input main' %>
+        <div class = 'image-container' id = '1' >
+          <div class = 'image-area'>
+            <span class = 'image-area-text'>クリックして選択 or ドラッグ&ドロップ</span>
+            <%= image_tag '', class: 'image-item hidden' %>
+            <%= f.file_field :images, name: 'item_form[images][]', class: 'image-input' %>
           </div>
-          <div class = 'delete-btn main'>削除</div>
+          <div class = 'delete-btn hidden'>削除</div>
         </div>
       </div>
     </div>
     <%# /出品画像 %>
+
+    <%# タグ追加 %>
+    <div class="new-items">
+      <div class = 'tag-item-container'>
+        <div class = 'tag-input-container'>
+          <div class="weight-bold-text">
+            <div>タグ <span class="form-any">任意</span></div>
+          </div>
+          <div class = 'tag-input'>
+            <%= f.text_area :tag, class:"item-tag", id:"item-tag", placeholder:"タグ（複数作成可）", maxlength:"40" %>
+            <span class = 'tag-create-btn' >作成</span>
+          </div>
+          <div class = 'search-results'>
+          </div>
+        </div>
+        <div class = 'tags-container'>
+          <div class = 'tags-title'>設定済タグ</div>
+        </div>
+      </div>
+    </div>
+    <%# タグ追加 %>
 
     <%# 商品名と商品説明 %>
     <div class="new-items">
@@ -177,4 +201,13 @@
       ©︎Furima,Inc.
     </p>
   </footer>
+</div>
+
+<%# モーダル用 %>
+
+<div class = 'modal-cover hidden' id = 'modal-cover-js'>
+  <div class = 'modal-main' id = 'modal-main-js'>
+    <i class="fas fa-times-circle modal-delete-btn" id = 'modal-delete-btn-js'></i>
+    <%= image_tag '', class: 'image-item', id: 'modal-image-js' %>
+  </div>
 </div>

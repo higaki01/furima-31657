@@ -1,0 +1,14 @@
+  <div>
+    <span>検索結果</span>
+    <% if items.length !=0 %>
+    <span><%= "#{items.length}件" %></span>
+    <br>
+    <span><%= "1〜#{items.length}件を表示" %></span>
+      <ul class = 'search-item-lists'>
+        <%= render partial: 'items/items', collection: items, as: 'item' %>
+      </ul>
+    <% else %>
+      <br>
+      <span>該当する商品はありません</span>
+    <% end %>
+  </div>

@@ -1,0 +1,28 @@
+<li class = 'list'>
+  <%= link_to item_path(item) do %>
+  <div class = 'item-img-content'>
+    <%= image_tag item.images[0], class: "item-img" if item.images.attached? %>
+  
+    <%# 売り切れ %>
+    <% if !item.purchase.nil? %>
+      <div class = 'sold-out'>
+        <span>Sold Out!!</span>
+      </div>
+    <% end %>
+    <%# // 売り切れ %>
+    
+  </div>
+  <div class = 'item-info'>
+    <h3 class = 'item-name'>
+      <%= item.name %>
+    </h3>
+    <div class = 'item-price'>
+      <span><%= item.price %>円<br>(税込み)</span>
+      <div class = 'star-btn'>
+        <%= image_tag "star.png", class:"star-icon" %>
+        <span class = 'star-count'><%= Favorite.where(item_id: item.id).count %></span>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</li>

@@ -1,0 +1,77 @@
+  <%# ナビゲーション %>
+  <div class = 'mypage-nav' >
+    <ul class = 'mypage-nav-list'>
+      <li>
+        <%= link_to mypage_path(current_user.id), class: 'mypage-nav-list-item' do %>
+          <span>マイページ</span>
+          <i class = "fas fa-angle-right"></i>
+        <% end %>
+      </li>
+
+      <li>
+        <%= link_to new_item_path, class: 'mypage-nav-list-item' do %>
+          <span>出品する</span>
+          <i class = "fas fa-angle-right"></i>
+        <% end %>
+      </li>
+
+      <li>
+        <%= link_to sale_mypage_path(current_user.id), class: 'mypage-nav-list-item sale' do %>
+          <span>出品中の商品</span>
+          <i class = "fas fa-angle-right"></i>
+        <% end %>
+      </li>
+
+      <li>
+        <%= link_to sold_mypage_path(current_user.id), class: 'mypage-nav-list-item sold' do %>
+          <span>販売済み商品</span>
+          <i class = "fas fa-angle-right"></i>
+        <% end %>
+      </li>
+
+      <li>
+        <%= link_to buy_mypage_path(current_user.id), class: 'mypage-nav-list-item buy' do %>
+          <span>購入した商品</span>
+          <i class = "fas fa-angle-right"></i>
+        <% end %>
+      </li>
+    </ul>
+
+    <ul class = 'mypage-nav-list'>
+    <span>設定</span>
+      <li>
+        <%= link_to address_mypage_path(current_user.id), class: 'mypage-nav-list-item address' do %>
+          <span>お届け先住所</span>
+          <i class = "fas fa-angle-right"></i>
+        <% end %>
+      </li>
+
+      <li>
+        <%= link_to card_mypage_path(current_user.id), class: 'mypage-nav-list-item card' do %>
+          <span>カード登録</span>
+          <i class = "fas fa-angle-right"></i>
+        <% end %>
+      </li>
+
+      <li>
+        <%= link_to edit_user_registration_path(), class: 'mypage-nav-list-item edit' do %>
+          <span>メール/パスワード</span>
+          <i class = "fas fa-angle-right"></i>
+        <% end %>
+      </li>
+
+      <li>
+        <%= link_to info_mypage_path(current_user.id), class: 'mypage-nav-list-item info' do %>
+          <span>本人情報</span>
+          <i class = "fas fa-angle-right"></i>
+        <% end %>
+      </li>
+
+      <li>
+        <%= link_to destroy_user_session_path(), method: :delete, class: 'mypage-nav-list-item log-out-btn' do %>
+          <span>ログアウト</span>
+          <i class = "fas fa-angle-right"></i>
+        <% end %>
+      </li>
+  </div>
+  <%# // ナビゲーション %>

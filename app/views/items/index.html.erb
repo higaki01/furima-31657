@@ -125,7 +125,7 @@
     <h2 class='title'>ピックアップカテゴリー</h2>
     <%= link_to '新規投稿商品', new_item_path, class: "subtitle" %>
     <ul class='item-lists'>
-      <% unless @items == [] %>
+      <% if @items.present? %>
         <%# 商品のインスタンス変数になにか入っている場合、中身のすべてを展開できるようにしましょう %>
         <% @items.each do |item| %>
         <li class='list'>
@@ -150,7 +150,7 @@
               <span><%= item.price %>円<br>(税込み)</span>
               <div class='star-btn'>
                 <%= image_tag "star.png", class:"star-icon" %>
-                <span class='star-count'>0</span>
+                <span class='star-count'><%= Favorite.where(item_id: item.id).count %></span>
               </div>
             </div>
           </div>

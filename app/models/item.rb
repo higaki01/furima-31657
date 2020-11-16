@@ -1,13 +1,17 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
-  has_many_attached       :images, dependent: :destroy
+  has_many_attached       :images,      dependent: :destroy
   belongs_to_active_hash  :category
   belongs_to_active_hash  :condition
   belongs_to_active_hash  :shipping_cost
   belongs_to_active_hash  :prefecture
   belongs_to_active_hash  :shipping_day
   belongs_to              :user
-  has_one                 :purchase, dependent: :destroy
+  has_one                 :purchase,    dependent: :destroy
+  has_many                :item_tags,   dependent: :destroy
+  has_many                :tags,        through: :item_tags
+  has_many                :messages,    dependent: :destroy
+  has_many                :favorites,   dependent: :destroy
 
   validates :images, :name, :description, :price, presence: true
   with_options numericality: { other_than: 1, message: 'を選択してください' } do

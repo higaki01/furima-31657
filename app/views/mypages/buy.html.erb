@@ -1,0 +1,9 @@
+<%= render "shared/header"%>
+<div class = 'mypage-container'>
+  <%= render 'mypage_nav' %>
+  <div class = 'mypage-content'>
+    <div class = 'mypage-detail'>購入した商品</div>
+    <%= render partial: 'mypage_content', locals: { items: @items } %>
+  </div>
+</div>
+<%= render "shared/footer"%>

@@ -9,11 +9,28 @@ class Form
     validates :phone, format: { with: /\A[0-9]+\z/, message: 'はハイフンなし11桁以内で入力してください' }
   end
 
-  def save(user_id, item_id)
-    purchase = Purchase.create(user_id: user_id, item_id: item_id)
-    Address.create(
-      postal_code: postal_code, prefecture_id: prefecture_id, city: city, address: address, 
-      building: building, phone: phone, purchase_id: purchase.id
-    )
+  def enter_card_in_form(card)
+    @token = card.customer_token
+  end
+
+  def enter_address_in_form(address)
+    @postal_code = address.postal_code
+    @prefecture_id = address.prefecture_id
+    @city = address.city
+    @address = address.address
+    @building = address.building
+    @phone = address.phone
+  end
+
+  def save_purchase(user_id, item_id, addresschk)
+    if addresschk
+      address = Address.find_by(user_id: user_id)
+    else
+      address = Address.create(
+        postal_code: @postal_code, prefecture_id: @prefecture_id, city: @city, 
+        address: @address, building: @building, phone: @phone
+      )
+    end
+    purchase = Purchase.create(user_id: user_id, item_id: item_id, address_id: address.id)
   end
 end

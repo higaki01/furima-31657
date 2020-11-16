@@ -8,9 +8,17 @@ app/assets/stylesheets/items/new.css %>
   </header>
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
-    <p class = 'element-counter'><%= @item.images.length %></p>
-    <%= form_with model: @item, local: true do |f| %>
+
+    <%# jsに送る用 %>
+    <div id = 'img-counter-js' class = 'hidden' data-id = <%= @item_form.images.length %>></div>
+    <div id = 'img-id-js' class = 'hidden' data-id = <%= @item_form.images.length == 5 ? 5 : @item_form.images.length + 1 %>></div>
+    <% @item.tags.each do |tag| %>
+      <%= hidden_field_tag 'tag-field-js', tag.name, class: 'tag-field-js' %>
+    <% end %>
+
+    <%= form_with model: @item_form, url: item_path(params[:id]), method: :patch, class: 'sell-form', local: true do |f| %>
     <%= render partial: 'shared/error_messages', locals: { model: f.object, name: 'all_messages' } %>
+
 
     <%# 出品画像 %>
     <div class = "image-upload">
@@ -20,44 +28,50 @@ app/assets/stylesheets/items/new.css %>
       </div>
 
       <div class = 'image-drop-container'>
-        <div class = 'image-container main' style = 'width: 20%'>
-          <div class = 'image-title main'>＜メイン画像＞</div>
-          <div class = 'image-area main'>
-            クリックして選択<br>or<br>ドラッグ&ドロップ
-            <%= image_tag @item.images[0], class: 'image-item main', style: 'display: block'%>
-            <%= f.file_field :images, name: 'item[images][]', class: 'image-input main' %>
-          </div>
-          <div class = 'delete-btn main' style = 'display: block' >削除</div>
-        </div>
-
-        <% @item.images.each_with_index do |image, i| %>
-          <% unless i == 0 %>
-            <div class = 'image-container <%= "element#{i}" %>' style = 'width: 20%' >
-              <div class = 'image-title <%= "element#{i}" %>'>＜追加画像＞</div>
-              <div class = 'image-area <%= "element#{i}" %>'>
-                追加できます
-                <%= image_tag @item.images[i], class: "image-item element#{image.id}", style: 'display: block' %>
-                <%= f.file_field :images, name: 'item[images][]', class: "image-input element#{image.id}" %>
-              </div>
-              <div class = 'delete-btn <%= "element#{image.id}" %>' >削除</div>
+        <% for i in 1..@item_form.images.length %>
+          <div class = 'image-container show-width' id = <%= i %> >
+            <div class = 'image-area'>
+              <%= f.file_field :images, name: 'item_form[images][]', class: 'image-input' %>
+              <%= image_tag @item_form.images[i-1], class: 'image-item' %>
             </div>
-          <% end %>
+            <div class = 'delete-btn'>削除</div>
+          </div>
         <% end %>
 
-        <% unless 5 == @item.images.length %>
-          <div class = 'image-container <%= "element#{@item.images.length}" %>' style = 'width: 20%' >
-            <div class = 'image-title <%= "element#{@item.images.length}" %>'>＜追加画像＞</div>
-            <div class = 'image-area <%= "element#{@item.images.length}" %>'>
-              追加できます
-              <%= image_tag '', class: "image-item element#{@item.images.length}" %>
-              <%= f.file_field :images, name: 'item[images][]', class: "image-input element#{@item.images.length}" %>
+        <% if !(@item_form.images.length == 5) %>
+          <div class = 'image-container' id = <%= i %> >
+            <div class = 'image-area'>
+              <span class = 'image-area-text'>あと<%= 5 - @item_form.images.length %>枚追加できます</span>
+              <%= f.file_field :images, name: 'item_form[images][]', class: 'image-input' %>
+              <%= image_tag '', class: 'image-item hidden'%>
             </div>
-            <div class = 'delete-btn <%= "element#{@item.images.length}" %>' >削除</div>
+            <div class = 'delete-btn hidden'>削除</div>
           </div>
         <% end %>
       </div>
     </div>
     <%# /出品画像 %>
+
+    <%# タグ追加 %>
+    <div class="new-items">
+      <div class = 'tag-item-container'>
+        <div class = 'tag-input-container'>
+          <div class="weight-bold-text">
+            <div>タグ <span class="form-any">任意</span></div>
+          </div>
+          <div class = 'tag-input'>
+            <%= f.text_area :tag, class:"item-tag", id:"item-tag", placeholder:"タグ（複数作成可）", maxlength:"40" %>
+            <span class = 'tag-create-btn' >作成</span>
+          </div>
+          <div class = 'search-results'>
+          </div>
+        </div>
+        <div class = 'tags-container'>
+          <div class = 'tags-title'>設定済タグ</div>
+        </div>
+      </div>
+    </div>
+    <%# タグ追加 %>
 
     <%# 商品名と商品説明 %>
     <div class="new-items">

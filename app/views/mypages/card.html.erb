@@ -1,0 +1,12 @@
+<%= render "shared/header"%>
+<div class = 'mypage-container'>
+  <%= render 'mypage_nav'%>
+  <div class = 'mypage-content'>
+  <% if current_user.card.present? %>
+    <%= render partial: 'card_show', locals: { card: @card } %>
+  <% else %>
+    <%= render partial: 'card_new', locals: { card: @card } %>
+  <% end %>
+  </div>
+</div>
+<%= render "shared/footer"%>

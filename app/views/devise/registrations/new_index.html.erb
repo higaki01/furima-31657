@@ -1,0 +1,41 @@
+<%= render "shared/second-header"%>
+
+<div class = 'registration-main'>
+  <div class='form-wrap'>
+    <div class='form-header'>
+      <h1 class='form-header-text'>
+        新規会員登録
+      </h1>
+    </div>
+
+    <div class = 'form-group'>
+      <%= link_to new_user_registration_path, type: 'button', class: 'registration-btn red' do %>
+        <i class = 'far fa-envelope webfont left' ></i>
+        <span>メールアドレスで登録する</span>
+      <% end %>
+    </div>
+
+    <div class = 'form-group'>
+      <%= link_to user_google_oauth2_omniauth_authorize_path, type: 'button', class: 'registration-btn google' do %>
+        <%= image_tag 'google-icon.svg', class: 'icon'%>
+        <span>Googleで登録する</span>
+      <% end %>
+    </div>
+
+    <div class = 'form-group'>
+      <%= link_to user_facebook_omniauth_authorize_path, type: 'button', class: 'registration-btn facebook' do %>
+        <%= image_tag 'f_logo_RGB-White_1024.png', class: 'icon'%>
+        <span>Facebookで登録する</span>
+      <% end %>
+    </div>
+
+    <div class = 'form-group'>
+      <p class="form-info-text">
+        登録することで、<a href="https://www.mercari.com/jp/tos/" target="_blank">利用規約</a>と<a href="https://www.mercari.com/jp/privacy/" target="_blank">プライバシーポリシー</a>に同意したものとみなされます。
+      </p>
+    </div>
+  </div>
+</div>
+
+<%= render "shared/second-footer"%>
+

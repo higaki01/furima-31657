@@ -1,0 +1,56 @@
+<%= render "shared/header"%>
+<div class = 'mypage-container'>
+  <%= render 'mypage_nav' %>
+  <div class = 'mypage-content'>
+
+    <div class = 'registration-edit'>
+      <div class='form-header'>
+        <h1 class='form-header-text'>
+          会員情報
+        </h1>
+      </div>
+
+      <div class="form-group">
+        <p class='form-info-header'>
+          本人確認
+        </p>
+        <p class='form-info-text'>
+          登録されたお名前・生年月日を変更する場合、本人確認書類の提出が必要になります。
+        </p>
+      </div>
+
+      <div class="form-group">
+        <div class='form-text-wrap'>
+          <label class="form-text">お名前</label>
+        </div>
+          <%= @user.familyname %>
+          <%= @user.firstname %>
+      </div>
+
+      <div class="form-group">
+        <div class='form-text-wrap'>
+          <label class="form-text">お名前カナ</label>
+        </div>
+          <%= @user.familyname_kana %>
+          <%= @user.firstname_kana %>
+      </div>
+
+      <div class="form-group">
+        <div class='form-text-wrap'>
+          <label class="form-text">生年月日</label>
+        </div>
+        <div class='input-birth-wrap'>
+          <%= "#{@user.birth_date.year}年#{@user.birth_date.month}月#{@user.birth_date.day}日" %>
+        </div>
+      </div>
+      
+      <div class='register-btn'>
+        <%= button_to '退会する', user_registration_path, method: :delete, class: "mypage-delete-btn" %>
+      </div>
+      <p class='register-info'>本人情報の登録について</p>
+    </div>
+
+  </div>
+</div>
+<%= render "shared/footer"%>
+

@@ -24,4 +24,4 @@ ja:
        condition_id: 商品の状態
        shipping_cost_id: 配送料の負担
        prefecture_id: 発送元の地域
-       shipping_day_id: 発送までの日数
+       shipping_day_id: 発送までの日

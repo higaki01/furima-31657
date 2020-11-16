@@ -1,0 +1,86 @@
+<%= render "shared/header"%>
+<div class = 'mypage-container'>
+  <%= render 'mypage_nav' %>
+  <div class = 'mypage-content'>
+
+    <%= form_with model: @address, url: create_address_mypage_path(current_user.id), class: 'registration-main', local: true do |f| %>
+      <div class='form-wrap-mypage'>
+        <div class='form-header'>
+          <h1 class='form-header-text'>配送先登録</h1>
+        </div>
+        <%= render partial: 'shared/error_messages', locals: { model: f.object, name: 'all_messages' } %>
+
+        <div class = 'on-registration-js'>
+          <%# 配送先の入力 %>
+          <div class="form-group">
+            <div class='form-text-wrap'>
+              <label class="form-text">郵便番号</label>
+              <span class="indispensable">必須</span>
+            </div>
+            <%= f.text_field :postal_code, class:"input-default", id:"postal-code", placeholder:"例）123-4567", maxlength:"8" %>
+          </div>
+
+          <div class="form-group">
+            <div class='form-text-wrap'>
+              <label class="form-text">都道府県</label>
+              <span class="indispensable">必須</span>
+            </div>
+            <%= f.collection_select(:prefecture_id, Prefecture.all, :id, :name, {}, {class:"select-box", id:"prefecture"}) %>
+          </div>
+
+          <div class="form-group">
+            <div class='form-text-wrap'>
+              <label class="form-text">市区町村</label>
+              <span class="indispensable">必須</span>
+            </div>
+            <%= f.text_field :city, class:"input-default", id:"city", placeholder:"例）横浜市緑区"%>
+          </div>
+
+          <div class="form-group">
+            <div class='form-text-wrap'>
+              <label class="form-text">番地</label>
+              <span class="indispensable">必須</span>
+            </div>
+            <%= f.text_field :address, class:"input-default", id:"addresses", placeholder:"例）青山1-1-1"%>
+          </div>
+
+          <div class="form-group">
+            <div class='form-text-wrap'>
+              <label class="form-text">建物名</label>
+              <span class="form-any">任意</span>
+            </div>
+            <%= f.text_field :building, class:"input-default", id:"building", placeholder:"例）柳ビル103"%>
+          </div>
+
+          <div class="form-group">
+            <div class='form-text-wrap'>
+              <label class="form-text">電話番号</label>
+              <span class="indispensable">必須</span>
+            </div>
+            <%= f.text_field :phone, class:"input-default", id:"phone-number", placeholder:"例）09012345678",maxlength:"11"%>
+          </div>
+          <%# /配送先の入力 %>
+        </div>
+
+          <% if @user.address.present? %>
+            <div class = 'form-group'>
+              <%= f.submit "編集する", class: 'registration-btn red' %>
+            </div>
+            <div class = 'form-group'>
+              <%= button_tag '削除する', type: 'button', id: 'mypage-delete-btn', class: 'registration-btn gray' %>
+            </div>
+          <% else %>
+            <div class = 'form-group'>
+              <%= f.submit "登録する", class: 'registration-btn red' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <%= button_to '', destroy_address_mypage_path(params[:id]), method: :delete, id: 'mypage-delete-btn-hidden', class: 'hidden' %>
+
+  </div>
+</div>
+<%= render "shared/footer"%>
+
+
